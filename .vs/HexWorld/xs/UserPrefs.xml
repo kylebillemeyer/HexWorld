@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{EAAA071C-5AF1-A940-9C7D-FAE805287F79}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameWorld.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Grid.cs" Line="58" Column="31" />
+      <File FileName="Assets/Scripts/GameWorld.cs" Line="93" Column="38" />
+      <File FileName="Assets/Scripts/RadialMoveStrategy.cs" Line="16" Column="1" />
+      <File FileName="Assets/Scripts/CubeIndex.cs" Line="98" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="HexWorld" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="GameWorld.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="505f0363-0a84-4719-a13a-e9b770d19cf3" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
