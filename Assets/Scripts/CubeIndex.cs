@@ -75,6 +75,18 @@ public struct CubeIndex
         return cubeDirections[dir];
     }
 
+    public static List<CubeIndex> GetRadialLine(CubeIndex start, int dir, int length)
+    {
+        var tiles = new List<CubeIndex>();
+        while (length > 0)
+        {
+            start += cubeDirections[dir];
+            tiles.Add(start);
+            length--;
+        }
+        return tiles;
+    }
+
     public static List<CubeIndex> GetRing(CubeIndex center, int radius)
     {
         var cube = center + (GetDir(4) * radius);

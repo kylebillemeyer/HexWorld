@@ -5,6 +5,7 @@ using UnityEditor;
 
 public class GameWorld : MonoBehaviour
 {
+    public bool Disabled { get; set; }
     public Grid Grid { get; set; }
 
     private Camera main_camera;
@@ -35,10 +36,15 @@ public class GameWorld : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Disabled)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             ResetPreviousSelections();
-            selection = DetermineNewSelection();
+            selection = Grid.RayDetectHex(main_camera);
                         
             if (selection != null)
             {
@@ -54,43 +60,29 @@ public class GameWorld : MonoBehaviour
             selection.UpdateMaterial(selection.OrigMaterial);
             previousSelection = selection;
         }
+    }
 
+    private void ResetPossibleDestinations()
+    {
         if (potentialDestinations != null)
         {
             potentialDestinations.ForEach((d) => d.UpdateMaterial(d.OrigMaterial));
-        }
-    }
-
-    private Hex DetermineNewSelection()
-    {
-        int layerMask = 1 << 8;
-        Ray ray = main_camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-        {
-            Debug.DrawRay(ray.origin, hit.point, Color.yellow);
-            Debug.Log("Did Hit");
-
-            return hit.collider.gameObject.GetComponent<Hex>();
-        }
-        else
-        {
-            Debug.DrawRay(ray.origin, ray.direction * 1000, Color.white);
-            Debug.Log("Did not Hit");
-
-            return null;
+            potentialDestinations = null;
         }
     }
 
     private void HandleNewSelection()
     {
-        if (potentialDestinations.Contains(selection))
+        if (potentialDestinations != null && potentialDestinations.Contains(selection))
         {
-            var src = Grid.Tiles.Reverse[selection];
+            var src = Grid.Tiles.Reverse[previousSelection];
             var dest = Grid.Tiles.Reverse[selection];
             Grid.MoveUnit(src, dest);
+            ResetPossibleDestinations();
+        }
+        else if (potentialDestinations != null)
+        {
+            ResetPossibleDestinations();
         }
         else
         {
@@ -101,9 +93,9 @@ public class GameWorld : MonoBehaviour
                 var selectedIndex = Grid.Tiles.Reverse[selection];
 
                 var moveStrat = selection.Unit.GetMovementStrategy();
-                var tiles = moveStrat.CalcDestinations(selectedIndex, Grid);
+                this.potentialDestinations = moveStrat.CalcDestinations(selectedIndex, Grid);
 
-                foreach (var tile in tiles)
+                foreach (var tile in this.potentialDestinations)
                 {
                     tile.UpdateMaterial(destination_mat);
                 }

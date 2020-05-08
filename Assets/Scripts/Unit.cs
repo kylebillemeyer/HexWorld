@@ -15,6 +15,6 @@ public class Unit : MonoBehaviour
 
     public IMovementStrategy GetMovementStrategy()
     {
-        return new RadialMoveStrategy(Range);
+        return new StraightMoveStrategy(Range);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Hex : MonoBehaviour
 {
-    public static double Size = .5;
+    public static double Size = 1;
 
     [SerializeField]
     private Unit unit;
@@ -13,6 +13,14 @@ public class Hex : MonoBehaviour
     {
         get { return unit; }
         set { unit = value; }
+    }
+
+    [SerializeField]
+    private int height;
+    public int Height
+    {
+        get { return height; }
+        set { height = value; }
     }
 
     public Material OrigMaterial { get; set; }
@@ -23,11 +31,24 @@ public class Hex : MonoBehaviour
     {
         renderer = GetComponent<Renderer>();
         OrigMaterial = renderer.material;
-        //AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Selected.mat");
+
+        UpdateHeight(Height == 0 ? Height : 1);
     }
 
     public void UpdateMaterial(Material material)
     {
         renderer.material = material;
+    }
+
+    public void UpdateHeight(int height)
+    {
+        if (height < 1)
+        {
+            return;
+        }
+
+        Height = height;
+        var ls = gameObject.transform.localScale;
+        gameObject.transform.localScale = new Vector3(ls.x, 2*Height, ls.z);
     }
 }

@@ -60,6 +60,26 @@ public class Grid : MonoBehaviour
 
     public List<Hex> GetTiles(IEnumerable<CubeIndex> indices)
     {
-        return indices.Select((x) => Tiles.Forward[x]).ToList<Hex>();
+        return indices
+            .Where((x) => Tiles.Forward.ContainsKey(x))
+            .Select((x) => Tiles.Forward[x])
+            .ToList<Hex>();
+    }
+
+    public Hex RayDetectHex(Camera camera)
+    {
+        int layerMask = 1 << 8;
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+            return hit.collider.gameObject.GetComponent<Hex>();
+        }
+        else
+        {
+            return null;
+        }
     }
 }
