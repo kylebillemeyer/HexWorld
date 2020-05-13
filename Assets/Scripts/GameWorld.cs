@@ -27,10 +27,12 @@ public class GameWorld : MonoBehaviour
 
         Grid = GetComponentInChildren<Grid>();
 
+        /*
         var unitInst = (GameObject)Instantiate(unitFab);
         var unit = unitInst.GetComponent<Unit>();
         unit.Range = 3;
         Grid.PlaceUnit(unit, new CubeIndex(0, 0, 0));
+        */
     }
 
     // Update is called once per frame

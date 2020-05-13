@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface Brush
+public abstract class Brush
 {
+    public Grid Grid { get; private set; }
+    public Camera MainCamera { get; private set; }
+
+    public Brush(Grid grid, Camera mainCamera)
+    {
+        Grid = grid;
+        MainCamera = mainCamera;
+    }
+
     // Update is called once per frame
-    void Update();
+    public abstract void Update();
 }

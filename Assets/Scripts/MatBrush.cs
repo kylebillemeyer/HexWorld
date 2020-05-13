@@ -6,38 +6,23 @@ public class MatBrush : Brush
     private static readonly float CAST_INTERVAL = 0f;
 
     public Material Material { get; private set; }
-    public Grid Grid { get; private set; }
-    public Camera MainCamera { get; private set; }
 
-    public MatBrush(Material material, Grid grid, Camera mainCamera)
+    public MatBrush(Material material, Grid grid, Camera mainCamera) : base(grid, mainCamera)
     {
         Material = material;
-        Grid = grid;
-        MainCamera = mainCamera;
     }
-    
-    private float timeSinceLastCast = 0f;
-    private bool allowCast = true;
 
-    public void Update()
+    private Hex previousDetection;
+    public override void Update()
     {
-        var deltaMS = Time.deltaTime * 1000;
-
-        timeSinceLastCast += deltaMS;
-        if (timeSinceLastCast > CAST_INTERVAL)
+        if (Input.GetMouseButton(0))
         {
-            timeSinceLastCast = 0;
-            allowCast = true;
-        }
-
-        if (allowCast && Input.GetMouseButton(0))
-        {
-            allowCast = false;
             var hex = Grid.RayDetectHex(MainCamera);
-            if (hex)
+            if ((hex && !previousDetection) || (hex && !hex.Equals(previousDetection)))
             {
                 hex.OrigMaterial = Material;
                 hex.UpdateMaterial(Material);
+                previousDetection = hex;
             }
         }
     }

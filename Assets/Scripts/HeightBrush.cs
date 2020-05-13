@@ -6,14 +6,10 @@ public class HeightBrush : Brush
     private static readonly float CAST_INTERVAL = 1000f;
 
     public int Dir { get; private set; }
-    public Grid Grid { get; private set; }
-    public Camera MainCamera { get; private set; }
 
-    public HeightBrush(int dir, Grid grid, Camera mainCamera)
+    public HeightBrush(int dir, Grid grid, Camera mainCamera) : base(grid, mainCamera) 
     {
         Dir = dir;
-        Grid = grid;
-        MainCamera = mainCamera;
     }
 
     private float timeSinceLastCast = 0f;
@@ -21,7 +17,7 @@ public class HeightBrush : Brush
 
     private Hex lastHighlighted;
 
-    public void Update()
+    public override void Update()
     {
         var deltaMS = Time.deltaTime * 1000;
 

@@ -16,6 +16,7 @@ public class Grid : MonoBehaviour
     }
 
     public BiDictionary<CubeIndex, Hex> Tiles { get; set; }
+    public BiDictionary<CubeIndex, Unit> Units { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,9 @@ public class Grid : MonoBehaviour
     {
         var tile = Tiles.Forward[dest];
         tile.Unit = unit;
-        unit.gameObject.transform.position = tile.gameObject.transform.position;
+        unit.gameObject.transform.position = tile.GetTop();
+
+        Units.Add(dest, unit);
     }
 
     public void MoveUnit(CubeIndex src, CubeIndex dest)
@@ -56,6 +59,8 @@ public class Grid : MonoBehaviour
         var unit = srcTile.Unit;
         srcTile.Unit = null;
         PlaceUnit(unit, dest);
+
+        Units.Remove(src);
     }
 
     public List<Hex> GetTiles(IEnumerable<CubeIndex> indices)

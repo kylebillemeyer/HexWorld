@@ -35,6 +35,12 @@ public class Hex : MonoBehaviour
         UpdateHeight(Height == 0 ? Height : 1);
     }
 
+    public Vector3 GetTop()
+    {
+        var pos = this.gameObject.transform.position;
+        return  new Vector3(pos.x, pos.y + this.Height * .4f, pos.z);
+    }
+
     public void UpdateMaterial(Material material)
     {
         renderer.material = material;

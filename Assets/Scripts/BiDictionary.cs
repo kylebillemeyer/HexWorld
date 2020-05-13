@@ -19,6 +19,20 @@ public class BiDictionary<T1, T2> : IEnumerable<KeyValuePair<T1, T2>>
         Reverse.Add(t2, t1);
     }
 
+    public void Remove(T1 t1)
+    {
+        var t2 = Forward[t1];
+        Forward.Remove(t1);
+        Reverse.Remove(t2);
+    }
+
+    public void Remove(T2 t2)
+    {
+        var t1 = Reverse[t2];
+        Forward.Remove(t1);
+        Reverse.Remove(t2);
+    }
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();

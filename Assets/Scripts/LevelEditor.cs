@@ -10,9 +10,19 @@ using System.Linq;
 public class LevelEditor : MonoBehaviour
 {
     public static readonly string MAT_PATH = "Assets/Materials/Tiles/";
+    public static readonly string UNIT_PATH = "Assets/Units/";
+
+    [SerializeField]
+    private bool isEnabled;
+    public bool IsEnabled
+    {
+        get { return isEnabled; }
+        set { isEnabled = value; }
+    }
 
     public GameWorld GameWorld{ get; private set; }
     public Dictionary<string, Material> Materials { get; private set; }
+    public Dictionary<string, GameObject> UnitFabs { get; private set; }
     public Material NoneMaterial { get; private set; }
 
     private Canvas canvas;
@@ -21,15 +31,20 @@ public class LevelEditor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        canvas = GetComponentInChildren<Canvas>();
+        if (IsEnabled)
+        {
+            canvas = GetComponentInChildren<Canvas>();
 
-        GameWorld = GameObject.FindObjectOfType<GameWorld>();
-        GameWorld.Disabled = true;
+            GameWorld = GameObject.FindObjectOfType<GameWorld>();
+            GameWorld.Disabled = true;
 
-        Materials = LoadMaterials();
-        NoneMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/None.mat");
+            Materials = LoadMaterials();
+            NoneMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/None.mat");
 
-        PlaceButtons();
+            UnitFabs = LoadUnitFabs();
+
+            PlaceButtons();
+        }
     }
 
     private Dictionary<string, Material> LoadMaterials()
@@ -40,6 +55,16 @@ public class LevelEditor : MonoBehaviour
             .Where(x => !x.Contains("None"))
             .ToDictionary(x => x, x =>
                 AssetDatabase.LoadAssetAtPath<Material>(x)
+            );
+    }
+
+    private Dictionary<string, GameObject> LoadUnitFabs()
+    {
+        var unitPath = Directory.GetFiles(UNIT_PATH);
+        return unitPath
+            .Where(x => x.EndsWith(".prefab"))
+            .ToDictionary(x => x, x =>
+                AssetDatabase.LoadAssetAtPath<GameObject>(x)
             );
     }
 
@@ -57,22 +82,29 @@ public class LevelEditor : MonoBehaviour
         var i = 0;
         foreach (KeyValuePair<string, Material> mat in Materials)
         {
-            PlaceButton(mat.Key, btnFab, anchor_x, anchor_y - i * height, mat.Value.color, mat.Value.name, InvokePaint);
+            PlaceButton<Material>(mat.Key, btnFab, anchor_x, anchor_y - i * height, mat.Value.color, mat.Value.name, InvokeMatBrush, mat.Value);
             i++;
         }
 
         i++;
-        PlaceButton("raise", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Raise", InvokeRaise);
+        PlaceButton<int>("raise", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Raise", InvokeHeightBrush, 1);
         i++;
-        PlaceButton("lower", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Lower", InvokeLower);
+        PlaceButton<int>("lower", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Lower", InvokeHeightBrush, -1);
+
+        i++;
+        foreach (KeyValuePair<string, GameObject> fab in UnitFabs)
+        {
+            PlaceButton(fab.Key, btnFab, anchor_x, anchor_y - i * height, Color.white, fab.Value.name, InvokeUnitPlacement, fab.Value);
+            i++;
+        }
     }
 
-    private void PlaceButton(string id, GameObject prefab, float x, float y, Color color, string text, Action<string, GameObject> action)
+    private void PlaceButton<T>(string id, GameObject prefab, float x, float y, Color color, string text, Action<string, GameObject, T> action, T actionParam)
     {
         var btnObj = Instantiate<GameObject>(prefab, canvas.transform, false);
 
         var btn = btnObj.GetComponent<Button>();
-        btn.onClick.AddListener(() => action(id, btnObj));
+        btn.onClick.AddListener(() => action(id, btnObj, actionParam));
         var cb = btn.colors;
         cb.normalColor = color;
         cb.highlightedColor = Color.white;
@@ -90,27 +122,30 @@ public class LevelEditor : MonoBehaviour
         txt.text = text;
     }
 
-    private void InvokePaint(string btnId, GameObject btn)
+    private void InvokeMatBrush(string btnId, GameObject btn, Material mat)
     {
-        activeBrush = new MatBrush(Materials[btnId], GameWorld.Grid, Camera.main);
+        activeBrush = new MatBrush(mat, GameWorld.Grid, Camera.main);
     }
 
-    private void InvokeRaise(string btnId, GameObject btn)
+    private void InvokeHeightBrush(string btnId, GameObject btn, int dir)
     {
-        activeBrush = new HeightBrush(1, GameWorld.Grid, Camera.main);
+        activeBrush = new HeightBrush(dir, GameWorld.Grid, Camera.main);
     }
 
-    private void InvokeLower(string btnId, GameObject btn)
+    private void InvokeUnitPlacement(string btnId, GameObject btn, GameObject unitFab)
     {
-        activeBrush = new HeightBrush(-1, GameWorld.Grid, Camera.main);
+        activeBrush = new UnitBrush(unitFab, GameWorld.Grid, Camera.main);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (activeBrush != null)
+        if (IsEnabled)
         {
-            activeBrush.Update();
+            if (activeBrush != null)
+            {
+                activeBrush.Update();
+            }
         }
     }
 }
