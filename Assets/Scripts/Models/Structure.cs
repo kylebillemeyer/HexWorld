@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace HexWorld.Models
 {
+    [System.Serializable]
     public struct Structure
     {
-        public Qub Qub { get; }
+        public Qub qub;
     }
 }

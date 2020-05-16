@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 namespace HexWorld.Models
 {
+    [Serializable]
     public struct Tile
     {
-        public Qub Pos { get; set; }
-        public int Height { get; set; }
+        public Qub pos;
+        public int height;
+        public Terrain terrain;
     }
 }

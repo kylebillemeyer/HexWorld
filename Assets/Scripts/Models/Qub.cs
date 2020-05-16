@@ -1,9 +1,10 @@
 ﻿namespace HexWorld.Models
 {
+    [System.Serializable]
     public struct Qub
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Z { get; set; }
+        public int x;
+        public int y;
+        public int z;
     }
 }

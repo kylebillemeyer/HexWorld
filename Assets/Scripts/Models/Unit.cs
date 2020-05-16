@@ -3,8 +3,10 @@ using UnityEditor;
 
 namespace HexWorld.Models
 {
+    [System.Serializable]
     public class Unit
     {
-        public int Range { get; set; }
+        public Qub pos;
+        public int range;
     }
 }

@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 using HexWorld.Components;
+using HexWorld.Components.Tile;
 
 namespace HexWorld.Graph
 {

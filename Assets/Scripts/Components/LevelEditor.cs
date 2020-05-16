@@ -7,14 +7,13 @@ using System.IO;
 using System;
 using System.Linq;
 
-using HexWorld.Editor;
+using HexWorld.LevelEditor;
 using HexWorld.Components;
 
 namespace HexWorld.Components
 {
     public class LevelEditor : MonoBehaviour
     {
-        public static readonly string MAT_PATH = "Assets/Materials/Tiles/";
         public static readonly string UNIT_PATH = "Assets/Units/";
 
         [SerializeField]
@@ -26,9 +25,7 @@ namespace HexWorld.Components
         }
 
         public GameWorld GameWorld { get; private set; }
-        public Dictionary<string, Material> Materials { get; private set; }
         public Dictionary<string, GameObject> UnitFabs { get; private set; }
-        public Material NoneMaterial { get; private set; }
 
         private Canvas canvas;
         private Brush activeBrush;
@@ -43,24 +40,10 @@ namespace HexWorld.Components
                 GameWorld = GameObject.FindObjectOfType<GameWorld>();
                 GameWorld.Disabled = true;
 
-                Materials = LoadMaterials();
-                NoneMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/None.mat");
-
                 UnitFabs = LoadUnitFabs();
 
                 PlaceButtons();
             }
-        }
-
-        private Dictionary<string, Material> LoadMaterials()
-        {
-            var matPaths = Directory.GetFiles(MAT_PATH);
-            return matPaths
-                .Where(x => x.EndsWith(".mat"))
-                .Where(x => !x.Contains("None"))
-                .ToDictionary(x => x, x =>
-                    AssetDatabase.LoadAssetAtPath<Material>(x)
-                );
         }
 
         private Dictionary<string, GameObject> LoadUnitFabs()
@@ -69,8 +52,10 @@ namespace HexWorld.Components
             return unitPath
                 .Where(x => x.EndsWith(".prefab"))
                 .ToDictionary(x => x, x =>
-                    AssetDatabase.LoadAssetAtPath<GameObject>(x)
-                );
+                {
+                    var d = AssetDatabase.LoadAssetAtPath<GameObject>(x);
+                    return d;
+                });
         }
 
         private void PlaceButtons()
@@ -85,16 +70,16 @@ namespace HexWorld.Components
             var anchor_y = canRect.yMax - height / 2;
 
             var i = 0;
-            foreach (KeyValuePair<string, Material> mat in Materials)
+            foreach (KeyValuePair<Terrain, Material> mat in TerrainCache.Cache)
             {
-                PlaceButton<Material>(mat.Key, btnFab, anchor_x, anchor_y - i * height, mat.Value.color, mat.Value.name, InvokeMatBrush, mat.Value);
+                PlaceButton(mat.Value.name, btnFab, anchor_x, anchor_y - i * height, mat.Value.color, mat.Value.name, InvokeMatBrush, mat.Key);
                 i++;
             }
 
             i++;
-            PlaceButton<int>("raise", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Raise", InvokeHeightBrush, 1);
+            PlaceButton("raise", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Raise", InvokeHeightBrush, 1);
             i++;
-            PlaceButton<int>("lower", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Lower", InvokeHeightBrush, -1);
+            PlaceButton("lower", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Lower", InvokeHeightBrush, -1);
 
             i++;
             foreach (KeyValuePair<string, GameObject> fab in UnitFabs)
@@ -102,6 +87,15 @@ namespace HexWorld.Components
                 PlaceButton(fab.Key, btnFab, anchor_x, anchor_y - i * height, Color.white, fab.Value.name, InvokeUnitPlacement, fab.Value);
                 i++;
             }
+
+            anchor_x = canRect.xMax - width / 2;
+            i = 0;
+
+            PlaceButton<object>("new", btnFab, anchor_x, anchor_y - i * height, Color.gray, "New", InvokeNew, null);
+            i++;
+            PlaceButton<object>("save", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Save", InvokeSave, null);
+            i++;
+            PlaceButton<object>("load", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Load", InvokeLoad, null);
         }
 
         private void PlaceButton<T>(string id, GameObject prefab, float x, float y, Color color, string text, Action<string, GameObject, T> action, T actionParam)
@@ -127,9 +121,9 @@ namespace HexWorld.Components
             txt.text = text;
         }
 
-        private void InvokeMatBrush(string btnId, GameObject btn, Material mat)
+        private void InvokeMatBrush(string btnId, GameObject btn, Terrain terrain)
         {
-            activeBrush = new MatBrush(mat, GameWorld.Grid, Camera.main);
+            activeBrush = new MatBrush(terrain, GameWorld.Grid, Camera.main);
         }
 
         private void InvokeHeightBrush(string btnId, GameObject btn, int dir)
@@ -140,6 +134,21 @@ namespace HexWorld.Components
         private void InvokeUnitPlacement(string btnId, GameObject btn, GameObject unitFab)
         {
             activeBrush = new UnitBrush(unitFab, GameWorld.Grid, Camera.main);
+        }
+
+        private void InvokeNew(string btnId, GameObject btn, object blank)
+        {
+            GameWorld.New(10);
+        }
+
+        private void InvokeSave(string btnId, GameObject btn, object blank)
+        {
+            GameWorld.Save("test_level");
+        }
+
+        private void InvokeLoad(string btnId, GameObject btn, object blank)
+        {
+            GameWorld.Load("test_level");
         }
 
         // Update is called once per frame

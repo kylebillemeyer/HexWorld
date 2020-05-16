@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using HexWorld.Models;
 
 namespace HexWorld.Graph
 {
@@ -33,6 +34,11 @@ namespace HexWorld.Graph
             return new AxialIndex(X, Z);
         }
 
+        public Qub ToQub()
+        {
+            return new Qub() { x = X, y = Y, z = Z };
+        }
+
         public Vector3 Position()
         {
             return ToAxial().Position();
@@ -41,6 +47,11 @@ namespace HexWorld.Graph
         public static CubeIndex FromPosition(Vector3 pos)
         {
             return AxialIndex.FromPosition(pos).ToCube();
+        }
+
+        public static CubeIndex FromQub(Qub qub)
+        {
+            return new CubeIndex(qub.x, qub.y, qub.z);
         }
 
         public CubeIndex GetNeighbor(CubeIndex dir)

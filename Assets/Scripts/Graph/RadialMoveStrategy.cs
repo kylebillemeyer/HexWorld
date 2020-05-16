@@ -1,4 +1,5 @@
 ﻿using HexWorld.Components;
+using HexWorld.Components.Tile;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

@@ -2,50 +2,81 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using HexWorld.Util;
 using HexWorld.Graph;
+using HexWorld.Models;
+using HexWorld.Components.Tile;
 
 namespace HexWorld.Components
 {
     public class GameGrid : MonoBehaviour
     {
-        [SerializeField]
-        private int radius;
-        public int Radius
-        {
-            get { return radius; }
-            set { radius = value; }
-        }
-
         public BiDictionary<CubeIndex, Hex> Tiles { get; set; }
         public BiDictionary<CubeIndex, Unit> Units { get; set; }
+
+        private GameObject hexFab;
+        private GameObject unitFab;
 
         // Start is called before the first frame update
         void Start()
         {
-            Tiles = new BiDictionary<CubeIndex, Hex>();
+            hexFab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/hex.prefab");
+            unitFab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Units/unit.prefab");
+            Reset();
+        }
 
-            var hexFab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/hex.prefab");
+        private void Reset()
+        {
+            Tiles = new BiDictionary<CubeIndex, Hex>();
+            Units = new BiDictionary<CubeIndex, Unit>();
+        }
+
+        public void Initialize(Models.GameGrid gridData)
+        {
+            Reset();
+            gridData.tiles.ForEach(tile =>
+            {
+                CreateHexAtPos(CubeIndex.FromQub(tile.pos), tile.terrain);
+            });
+
+            gridData.units.ForEach(unit =>
+            {
+                CreateUnitAtPos(CubeIndex.FromQub(unit.pos), unit.range);
+            });
+        }
+
+        public void Initialize(int radius)
+        {
+            Reset();
             var center = new CubeIndex(0, 0, 0);
 
-            var spiral = CubeIndex.GetSpiral(center, Radius);
+            var spiral = CubeIndex.GetSpiral(center, radius);
             foreach (var index in spiral)
             {
-                var pos = index.Position();
-                var hexInst = (GameObject)Instantiate(hexFab);
-                hexInst.gameObject.transform.position = pos;
-
-                var hex = hexInst.GetComponent<Hex>();
-                Tiles.Add(index, hex);
+                CreateHexAtPos(index, Terrain.None);
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        private void CreateHexAtPos(CubeIndex index, Terrain terrain)
         {
+            var hexInst = Instantiate(hexFab);
+            hexInst.gameObject.transform.position = index.Position();
 
+            var hex = hexInst.GetComponent<Hex>();
+            hex.Terrain = terrain;
+
+            Tiles.Add(index, hex);
+        }
+
+        private void CreateUnitAtPos(CubeIndex index, int range)
+        {
+            var unitInst = Instantiate(unitFab);
+            var unit = unitInst.GetComponent<Unit>();
+            unit.Range = range;
+            PlaceUnit(unit, index);
         }
 
         public void PlaceUnit(Unit unit, CubeIndex dest)

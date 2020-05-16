@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System;
 using UnityEditor;
+using HexWorld.Util;
+using System.Linq;
+using HexWorld.Models;
+using HexWorld.Graph;
+using HexWorld.Components.Tile;
 
 namespace HexWorld.Components
 {
@@ -25,16 +30,7 @@ namespace HexWorld.Components
             selected_mat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Selected.mat");
             destination_mat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Destination.mat");
 
-            var unitFab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/unit.prefab");
-
             Grid = GetComponentInChildren<GameGrid>();
-
-            /*
-            var unitInst = (GameObject)Instantiate(unitFab);
-            var unit = unitInst.GetComponent<Unit>();
-            unit.Range = 3;
-            Grid.PlaceUnit(unit, new CubeIndex(0, 0, 0));
-            */
         }
 
         // Update is called once per frame
@@ -61,7 +57,7 @@ namespace HexWorld.Components
         {
             if (selection != null)
             {
-                selection.UpdateMaterial(selection.OrigMaterial);
+                selection.ResetMaterial();
                 previousSelection = selection;
             }
         }
@@ -70,7 +66,7 @@ namespace HexWorld.Components
         {
             if (potentialDestinations != null)
             {
-                potentialDestinations.ForEach((d) => d.UpdateMaterial(d.OrigMaterial));
+                potentialDestinations.ForEach((d) => d.ResetMaterial());
                 potentialDestinations = null;
             }
         }
@@ -105,6 +101,64 @@ namespace HexWorld.Components
                     }
                 }
             }
+        }
+
+        internal void New(int radius)
+        {
+            Grid.Initialize(radius);
+        }
+
+        public void Load(string levelName)
+        {
+            var path = LevelNameToPath(levelName);
+            var gridData = Serializer.Deserialize(path);
+
+            if (gridData.cameraPos != null)
+            {
+                main_camera.transform.position = gridData.cameraPos;
+            }
+
+            if (gridData.cameraDir != null)
+            {
+                main_camera.transform.forward = gridData.cameraDir;
+            }
+
+
+            Grid.Initialize(gridData);
+        }
+
+        public void Save(string levelName)
+        {
+            var path = LevelNameToPath(levelName);
+
+            var tiles = Grid.Tiles.Forward
+                .Select(pair => new Models.Tile() 
+                    { 
+                        pos = pair.Key.ToQub(), 
+                        height = pair.Value.Height, 
+                        terrain = pair.Value.Terrain 
+                    })
+                .ToList();
+
+            var units = Grid.Units.Forward
+                .Select(pair => new Models.Unit() { pos = pair.Key.ToQub(), range = pair.Value.Range })
+                .ToList();
+
+            var data = new Models.GameGrid()
+            {
+                tiles = tiles,
+                units = units,
+                structures = new List<Structure>(),
+                cameraPos = main_camera.transform.position,
+                cameraDir = main_camera.transform.forward
+            };
+
+            Serializer.Serialize(path, data);
+        }
+
+        private string LevelNameToPath(string levelName)
+        {
+            return Serializer.DATA_PATH_PREFIX + levelName + ".json";
         }
     }
 }
