@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{EAAA071C-5AF1-A940-9C7D-FAE805287F79}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Scripts\Turn\Turn.cs" />
     <Compile Include="Assets\Scripts\Util\BiDictionary.cs" />
     <Compile Include="Assets\Scripts\Util\LevelLoader.cs" />
+    <Compile Include="Assets\Scripts\Util\ListExtensions.cs" />
     <Compile Include="Assets\Scripts\Util\Serializer.cs" />
     <Compile Include="Assets\Scripts\Util\State.cs" />
     <Compile Include="Assets\Scripts\Util\StateMachine.cs" />
@@ -650,7 +652,8 @@
       <HintPath>C:/Users/bille/Documents/git/Unity/HexWorld/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

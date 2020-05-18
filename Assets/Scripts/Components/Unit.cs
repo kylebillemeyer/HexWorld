@@ -33,6 +33,38 @@ namespace HexWorld.Components
             set { maxHealth = value; }
         }
 
+        [SerializeField]
+        private int mana;
+        public int Mana
+        {
+            get { return mana; }
+            set { mana = value; }
+        }
+
+        [SerializeField]
+        private int maxMana;
+        public int MaxMana
+        {
+            get { return maxMana; }
+            set { maxMana = value; }
+        }
+
+        [SerializeField]
+        private int power;
+        public int Power
+        {
+            get { return power; }
+            set { power = value; }
+        }
+
+        [SerializeField]
+        private int focus;
+        public int Focus
+        {
+            get { return focus; }
+            set { focus = value; }
+        }
+
         public IMovementStrategy GetMovementStrategy()
         {
             return new StraightMoveStrategy(Range);

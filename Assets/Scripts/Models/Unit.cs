@@ -10,5 +10,9 @@ namespace HexWorld.Models
         public int range;
         public int health;
         public int maxHealth;
+        public int mana;
+        public int maxMana;
+        public int power;
+        public int focus;
     }
 }

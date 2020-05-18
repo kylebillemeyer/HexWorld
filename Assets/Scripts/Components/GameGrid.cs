@@ -39,12 +39,12 @@ namespace HexWorld.Components
             Reset();
             gridData.tiles.ForEach(tile =>
             {
-                CreateHexAtPos(CubeIndex.FromQub(tile.pos), tile.terrain, tile.height);
+                CreateHexAtPos(tile);
             });
 
             gridData.units.ForEach(unit =>
             {
-                CreateUnitAtPos(CubeIndex.FromQub(unit.pos), unit.range, unit.health, unit.maxHealth);
+                CreateUnitAtPos(unit);
             });
         }
 
@@ -56,29 +56,37 @@ namespace HexWorld.Components
             var spiral = CubeIndex.GetSpiral(center, radius);
             foreach (var index in spiral)
             {
-                CreateHexAtPos(index, Terrain.None, 1);
+                CreateHexAtPos(new Models.Tile() { pos = index.ToQub(), terrain = Terrain.None, height = 1 });
             }
         }
 
-        private void CreateHexAtPos(CubeIndex index, Terrain terrain, int height)
+        private void CreateHexAtPos(Models.Tile data)
         {
+            var index = CubeIndex.FromQub(data.pos);
+
             var hexInst = Instantiate(hexFab);
             hexInst.gameObject.transform.position = index.Position();
 
             var hex = hexInst.GetComponent<Hex>();
-            hex.Terrain = terrain;
-            hex.UpdateHeight(height);
+            hex.Terrain = data.terrain;
+            hex.UpdateHeight(data.height);
 
             Tiles.Add(index, hex);
         }
 
-        private void CreateUnitAtPos(CubeIndex index, int range, int health, int maxHealth)
+        private void CreateUnitAtPos(Models.Unit data)
         {
+            var index = CubeIndex.FromQub(data.pos);
+
             var unitInst = Instantiate(unitFab);
             var unit = unitInst.GetComponent<Unit>();
-            unit.Range = range;
-            unit.Health = health;
-            unit.MaxHealth = maxHealth;
+            unit.Range = data.range;
+            unit.Health = data.health;
+            unit.MaxHealth = data.maxHealth;
+            unit.Mana = data.mana;
+            unit.MaxMana = data.maxMana;
+            unit.Power = data.power;
+            unit.Focus = data.focus;
             PlaceUnit(unit, index);
         }
 

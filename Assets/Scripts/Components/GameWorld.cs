@@ -133,15 +133,25 @@ namespace HexWorld.Components
 
             var tiles = Grid.Tiles.Forward
                 .Select(pair => new Models.Tile() 
-                    { 
-                        pos = pair.Key.ToQub(), 
-                        height = pair.Value.Height, 
-                        terrain = pair.Value.Terrain 
-                    })
+                { 
+                    pos = pair.Key.ToQub(), 
+                    height = pair.Value.Height, 
+                    terrain = pair.Value.Terrain 
+                })
                 .ToList();
 
             var units = Grid.Units.Forward
-                .Select(pair => new Models.Unit() { pos = pair.Key.ToQub(), range = pair.Value.Range })
+                .Select(pair => new Models.Unit()
+                {
+                    pos = pair.Key.ToQub(),
+                    range = pair.Value.Range,
+                    health = pair.Value.Health,
+                    maxHealth = pair.Value.MaxHealth,
+                    mana = pair.Value.Mana,
+                    maxMana = pair.Value.MaxMana,
+                    power = pair.Value.Power,
+                    focus = pair.Value.Focus
+                })
                 .ToList();
 
             var data = new Models.GameGrid()
