@@ -7,6 +7,9 @@ using System.Linq;
 using HexWorld.Models;
 using HexWorld.Graph;
 using HexWorld.Components.Tile;
+using HexWorld.Cards;
+using HexWord.Battle;
+using HexWord.Util;
 
 namespace HexWorld.Components
 {
@@ -14,6 +17,7 @@ namespace HexWorld.Components
     {
         public bool Disabled { get; set; }
         public GameGrid Grid { get; set; }
+        public Deck Deck { get; set; }
 
         private Camera main_camera;
         private Material selected_mat;
@@ -23,6 +27,8 @@ namespace HexWorld.Components
         private Hex previousSelection;
         private List<Hex> potentialDestinations;
 
+        private StateMachine machine;
+
         // Use this for initialization
         void Start()
         {
@@ -31,6 +37,9 @@ namespace HexWorld.Components
             destination_mat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Destination.mat");
 
             Grid = GetComponentInChildren<GameGrid>();
+            Deck = new Deck();
+
+            machine = new StateMachine();
         }
 
         // Update is called once per frame
@@ -41,7 +50,9 @@ namespace HexWorld.Components
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            machine.Update(this);
+
+            if (false)//Input.GetMouseButtonDown(0))
             {
                 ResetPreviousSelections();
                 selection = Grid.RayDetectHex(main_camera);
@@ -169,6 +180,11 @@ namespace HexWorld.Components
         private string LevelNameToPath(string levelName)
         {
             return Serializer.DATA_PATH_PREFIX + levelName + ".json";
+        }
+
+        public void StartBattle()
+        {
+            machine.ChangeState(new BattleStart(machine));
         }
     }
 }

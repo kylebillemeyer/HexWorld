@@ -3,29 +3,29 @@ using UnityEditor;
 using HexWorld.Components;
 using System;
 
-public abstract class State
+namespace HexWord.Util
 {
-    protected StateMachine machine;
-
-    public State(StateMachine machine)
+    public abstract class State
     {
-        this.machine = machine;
-    }
+        protected StateMachine machine;
 
-    public abstract void Update(GameWorld world);
+        public State(StateMachine machine)
+        {
+            this.machine = machine;
+        }
 
-    internal void onExit()
-    {
-        throw new NotImplementedException();
-    }
+        public abstract void Update(GameWorld world);
 
-    internal void onLost()
-    {
-        throw new NotImplementedException();
-    }
+        public virtual void OnExit(GameWorld world)
+        {
+        }
 
-    internal void onEnter()
-    {
-        throw new NotImplementedException();
+        public virtual void OnLost(GameWorld world)
+        {
+        }
+
+        public virtual void OnEnter(GameWorld world)
+        {
+        }
     }
 }

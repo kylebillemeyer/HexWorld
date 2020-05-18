@@ -1,28 +1,40 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using HexWorld.Components;
+using HexWord.Battle;
+using System;
 
-public class StateMachine
+namespace HexWord.Util
 {
-    public State Previous { get; set; }
-    public State Current { get; set; }
-
-    private State next;
-
-    public void Update(GameWorld world)
+    public class StateMachine
     {
-        if (next != null)
+        public State Previous { get; set; }
+        public State Current { get; set; }
+
+        private State next;
+
+        public void Update(GameWorld world)
         {
-            Current.onExit();
-            Previous.onLost();
+            if (next != null)
+            {
+                if (Current != null)
+                    Current.OnExit(world);
+                if (Previous != null)
+                    Previous.OnLost(world);
 
-            Previous = Current;
-            Current = next;
-            next = null;
+                Previous = Current;
+                Current = next;
+                next = null;
 
-            Current.onEnter();
+                Current.OnEnter(world);
+            }
+
+            Current.Update(world);
         }
 
-        Current.Update(world);
+        public void ChangeState(State state)
+        {
+            next = state;
+        }
     }
 }

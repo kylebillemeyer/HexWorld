@@ -17,6 +17,18 @@ namespace HexWorld.Cards
 
         public Deck()
         {
+            Cards = new List<Card>();
+            DrawPile = new List<Card>();
+            DiscardPile = new List<Card>();
+            Hand = new List<Card>();
+        }
+
+        public void Reset()
+        {
+            DrawPile.Clear();
+            DiscardPile.Clear();
+            Hand.Clear();
+
             DiscardPile.AddRange(Cards);
             Shuffle();
         }
@@ -35,13 +47,27 @@ namespace HexWorld.Cards
             return top;
         }
 
+        public void DrawN(int n)
+        {
+            foreach (int i in Enumerable.Range(0, n))
+            {
+                Draw();
+            }
+        }
+
         public void Discard(Card card)
         {
             Hand.Remove(card);
             DiscardPile.Add(card);
         }
 
-        private void Shuffle()
+        public void DiscardHand()
+        {
+            DiscardPile.AddRange(Hand);
+            Hand.Clear();
+        }
+
+        public void Shuffle()
         {
             DiscardPile.Shuffle();
             DrawPile.AddRange(DiscardPile);

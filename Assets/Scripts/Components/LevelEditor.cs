@@ -96,6 +96,10 @@ namespace HexWorld.Components
             PlaceButton<object>("save", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Save", InvokeSave, null);
             i++;
             PlaceButton<object>("load", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Load", InvokeLoad, null);
+
+            i++;
+            i++;
+            PlaceButton<object>("battle", btnFab, anchor_x, anchor_y - i * height, Color.gray, "Battle", InvokeBattle, null);
         }
 
         private void PlaceButton<T>(string id, GameObject prefab, float x, float y, Color color, string text, Action<string, GameObject, T> action, T actionParam)
@@ -149,6 +153,12 @@ namespace HexWorld.Components
         private void InvokeLoad(string btnId, GameObject btn, object blank)
         {
             GameWorld.Load("test_level");
+        }
+
+        private void InvokeBattle(string btnId, GameObject btn, object blank)
+        {
+            GameWorld.Disabled = false;
+            GameWorld.StartBattle();
         }
 
         // Update is called once per frame
