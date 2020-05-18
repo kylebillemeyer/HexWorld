@@ -7,7 +7,7 @@ namespace HexWorld.Components.Tile
 {
     public class Hex : MonoBehaviour
     {
-        public static double Size = 1;
+        public static double Radius = 1;
 
         [SerializeField]
         private Unit unit;
@@ -40,7 +40,7 @@ namespace HexWorld.Components.Tile
 
             ResetMaterial();
 
-            UpdateHeight(Height == 0 ? Height : 1);
+            UpdateHeight(Height == 0 ? 1 : Height);
         }
 
         public Vector3 GetTop()

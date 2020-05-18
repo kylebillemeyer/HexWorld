@@ -8,5 +8,7 @@ namespace HexWorld.Models
     {
         public Qub pos;
         public int range;
+        public int health;
+        public int maxHealth;
     }
 }

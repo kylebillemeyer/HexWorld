@@ -39,12 +39,12 @@ namespace HexWorld.Components
             Reset();
             gridData.tiles.ForEach(tile =>
             {
-                CreateHexAtPos(CubeIndex.FromQub(tile.pos), tile.terrain);
+                CreateHexAtPos(CubeIndex.FromQub(tile.pos), tile.terrain, tile.height);
             });
 
             gridData.units.ForEach(unit =>
             {
-                CreateUnitAtPos(CubeIndex.FromQub(unit.pos), unit.range);
+                CreateUnitAtPos(CubeIndex.FromQub(unit.pos), unit.range, unit.health, unit.maxHealth);
             });
         }
 
@@ -56,26 +56,29 @@ namespace HexWorld.Components
             var spiral = CubeIndex.GetSpiral(center, radius);
             foreach (var index in spiral)
             {
-                CreateHexAtPos(index, Terrain.None);
+                CreateHexAtPos(index, Terrain.None, 1);
             }
         }
 
-        private void CreateHexAtPos(CubeIndex index, Terrain terrain)
+        private void CreateHexAtPos(CubeIndex index, Terrain terrain, int height)
         {
             var hexInst = Instantiate(hexFab);
             hexInst.gameObject.transform.position = index.Position();
 
             var hex = hexInst.GetComponent<Hex>();
             hex.Terrain = terrain;
+            hex.UpdateHeight(height);
 
             Tiles.Add(index, hex);
         }
 
-        private void CreateUnitAtPos(CubeIndex index, int range)
+        private void CreateUnitAtPos(CubeIndex index, int range, int health, int maxHealth)
         {
             var unitInst = Instantiate(unitFab);
             var unit = unitInst.GetComponent<Unit>();
             unit.Range = range;
+            unit.Health = health;
+            unit.MaxHealth = maxHealth;
             PlaceUnit(unit, index);
         }
 

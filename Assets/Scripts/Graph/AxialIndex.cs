@@ -24,15 +24,15 @@ namespace HexWorld.Graph
         public Vector3 Position()
         {
             return new Vector3(
-                (float)(Hex.Size * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R)),
+                (float)(Hex.Radius * (2 * Q + R)),
                 0,
-                (float)(Hex.Size * 1.5 * R));
+                (float)(Hex.Radius * 1.5 * R));
         }
 
         public static AxialIndex FromPosition(Vector3 pos)
         {
-            var q = (int)Math.Floor((Math.Sqrt(3) / 3 * pos.x - 1.0 / 3 * pos.z) / Hex.Size);
-            var r = (int)Math.Floor((2.0 / 3 * pos.z) / Hex.Size);
+            var q = (int)Math.Floor((pos.x / 2 - 1.0 / 3 * pos.z) / Hex.Radius);
+            var r = (int)Math.Floor((2.0 / 3 * pos.z) / Hex.Radius);
 
             return new AxialIndex(q, r);
         }
