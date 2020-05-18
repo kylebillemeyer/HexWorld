@@ -63,6 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Cards\Card.cs" />
+    <Compile Include="Assets\Scripts\Cards\Deck.cs" />
     <Compile Include="Assets\Scripts\Components\CameraRotator.cs" />
     <Compile Include="Assets\Scripts\Components\GameGrid.cs" />
     <Compile Include="Assets\Scripts\Components\GameWorld.cs" />
@@ -85,9 +87,13 @@
     <Compile Include="Assets\Scripts\Models\Terrain.cs" />
     <Compile Include="Assets\Scripts\Models\Tile.cs" />
     <Compile Include="Assets\Scripts\Models\Unit.cs" />
+    <Compile Include="Assets\Scripts\Turn\Draw.cs" />
+    <Compile Include="Assets\Scripts\Turn\Turn.cs" />
     <Compile Include="Assets\Scripts\Util\BiDictionary.cs" />
     <Compile Include="Assets\Scripts\Util\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\Util\Serializer.cs" />
+    <Compile Include="Assets\Scripts\Util\State.cs" />
+    <Compile Include="Assets\Scripts\Util\StateMachine.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
