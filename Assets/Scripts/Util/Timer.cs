@@ -75,7 +75,7 @@ public class Timer : MonoBehaviour
         }
     }
 
-    private void Reset()
+    public void Reset()
     {
         remaining = Timeout;
     }

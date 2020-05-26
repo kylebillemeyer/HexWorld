@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HexWorld.Components;
 using System.Linq;
 using HexWord.Util;
+using UnityEngine.UI;
 
 namespace HexWorld.Battle
 {
@@ -13,21 +14,40 @@ namespace HexWorld.Battle
 
         public HashSet<Unit> UnexhaustedUnits { get; set; }
 
-        public PlayerPhase(StateMachine machine) : base(machine) { }
+        private GameObject ui;
+        private Timer startTimer;
+
+        private bool allowControl;
+
+        public PlayerPhase(StateMachine machine) : base(machine)
+        {
+            ui = GameObject.Find("Canvas").FindObject("PlayerPhaseUI");
+            startTimer = ui.GetComponentInChildren<Timer>();
+        }
 
         public override void OnEnter(GameWorld world)
         {
-            world.Deck.DrawN(6);
-            UnexhaustedUnits = new HashSet<Unit>(world.Grid.Units.Forward.Values);
+            world.Deck.Reset();
+            ui.SetActive(true);
+            startTimer.OnTimeout.AddListener(OnStartTimeout);
+            startTimer.Reset();
+            startTimer.Paused = false;
         }
 
         public override void Update(GameWorld world)
         {
+
         }
 
         public override void OnExit(GameWorld world)
         {
-            world.Deck.DiscardHand();
+            startTimer.Paused = true;
+            ui.SetActive(false);
+        }
+
+        public void OnStartTimeout()
+        {
+            machine.ChangeState(new Draw(6, machine));
         }
     }
 }

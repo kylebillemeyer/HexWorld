@@ -67,7 +67,11 @@
     <Compile Include="Assets\Scripts\Battle\Draw.cs" />
     <Compile Include="Assets\Scripts\Battle\PlayerPhase.cs" />
     <Compile Include="Assets\Scripts\Cards\Card.cs" />
+    <Compile Include="Assets\Scripts\Cards\CardCache.cs" />
+    <Compile Include="Assets\Scripts\Cards\CardType.cs" />
     <Compile Include="Assets\Scripts\Cards\Deck.cs" />
+    <Compile Include="Assets\Scripts\Cards\HandUI.cs" />
+    <Compile Include="Assets\Scripts\Cards\Power\Slash.cs" />
     <Compile Include="Assets\Scripts\Components\CameraRotator.cs" />
     <Compile Include="Assets\Scripts\Components\GameGrid.cs" />
     <Compile Include="Assets\Scripts\Components\GameWorld.cs" />

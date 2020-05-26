@@ -10,10 +10,14 @@ namespace HexWorld.Cards
 {
     public class Deck
     {
+        public static readonly int MIN_CARD_THRESHOLD = 6;
+
         public List<Card> Cards { get; set; }
         public List<Card> DrawPile { get; set; }
         public List<Card> DiscardPile { get; set; }
         public List<Card> Hand { get; set; }
+
+        public int CardCount { get { return Cards.Count - Hand.Count; } }
 
         public Deck()
         {
@@ -21,6 +25,26 @@ namespace HexWorld.Cards
             DrawPile = new List<Card>();
             DiscardPile = new List<Card>();
             Hand = new List<Card>();
+        }
+
+        public void Add(Card card)
+        {
+            Cards.Add(card);
+        }
+
+        public void AddRange(IEnumerable<Card> cards)
+        {
+            Cards.AddRange(cards);
+        }
+
+        public void Remove(Card card)
+        {
+            if (CardCount <= 0)
+            {
+                throw new ArgumentException("Removing card would drop deck below min threshold.");
+            }
+
+            Cards.Remove(card);
         }
 
         public void Reset()
@@ -47,11 +71,22 @@ namespace HexWorld.Cards
             return top;
         }
 
-        public void DrawN(int n)
+        public List<Card> Draw(int n)
         {
-            foreach (int i in Enumerable.Range(0, n))
+            if (n <= CardCount)
             {
-                Draw();
+                var cards = new List<Card>();
+
+                foreach (int i in Enumerable.Range(0, n))
+                {
+                    cards.Add(Draw());
+                }
+
+                return cards;
+            }
+            else
+            {
+                throw new ArgumentException("Not enough cards in deck.");
             }
         }
 

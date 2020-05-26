@@ -21,11 +21,19 @@ namespace HexWord.Battle
         {
             world.Deck.Reset();
             ui.SetActive(true);
+            startTimer.OnTimeout.AddListener(OnStartTimeout);
+            startTimer.Reset();
             startTimer.Paused = false;
         }
 
         public override void Update(GameWorld world)
         {
+        }
+
+        public override void OnExit(GameWorld world)
+        {
+            startTimer.Paused = true;
+            ui.SetActive(false);
         }
 
         public void OnStartTimeout()

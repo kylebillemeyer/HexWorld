@@ -10,6 +10,7 @@ using HexWorld.Components.Tile;
 using HexWorld.Cards;
 using HexWord.Battle;
 using HexWord.Util;
+using HexWorld.Cards.Power;
 
 namespace HexWorld.Components
 {
@@ -38,6 +39,21 @@ namespace HexWorld.Components
 
             Grid = GetComponentInChildren<GameGrid>();
             Deck = new Deck();
+            Deck.AddRange(new List<Card>()
+            {
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash(),
+                new Slash()
+            });
 
             machine = new StateMachine();
         }
