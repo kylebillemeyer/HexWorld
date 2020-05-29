@@ -15,7 +15,7 @@ namespace HexWorld.Components
     public class GameGrid : MonoBehaviour
     {
         public BiDictionary<CubeIndex, Hex> Tiles { get; set; }
-        public BiDictionary<CubeIndex, Unit> Units { get; set; }
+        public BiDictionary<CubeIndex, Unit> PlayerUnits { get; set; }
 
         private GameObject hexFab;
         private GameObject unitFab;
@@ -31,7 +31,7 @@ namespace HexWorld.Components
         private void Reset()
         {
             Tiles = new BiDictionary<CubeIndex, Hex>();
-            Units = new BiDictionary<CubeIndex, Unit>();
+            PlayerUnits = new BiDictionary<CubeIndex, Unit>();
         }
 
         public void Initialize(Models.GameGrid gridData)
@@ -96,7 +96,7 @@ namespace HexWorld.Components
             tile.Unit = unit;
             unit.gameObject.transform.position = tile.GetTop();
 
-            Units.Add(dest, unit);
+            PlayerUnits.Add(dest, unit);
         }
 
         public void MoveUnit(CubeIndex src, CubeIndex dest)
@@ -106,7 +106,7 @@ namespace HexWorld.Components
             srcTile.Unit = null;
             PlaceUnit(unit, dest);
 
-            Units.Remove(src);
+            PlayerUnits.Remove(src);
         }
 
         public List<Hex> GetTiles(IEnumerable<CubeIndex> indices)

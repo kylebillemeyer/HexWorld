@@ -140,14 +140,11 @@ namespace HexWorld.Components
             var path = LevelNameToPath(levelName);
             var gridData = Serializer.Deserialize(path);
 
-            if (gridData.cameraPos != null)
+            if (gridData.rotatorPos != null)
             {
-                main_camera.transform.position = gridData.cameraPos;
-            }
-
-            if (gridData.cameraDir != null)
-            {
-                main_camera.transform.forward = gridData.cameraDir;
+                main_camera.transform.parent.position = gridData.rotatorPos;
+                main_camera.transform.localPosition = gridData.cameraLocalPos;
+                main_camera.transform.LookAt(main_camera.transform.parent.position);
             }
 
 
@@ -167,7 +164,7 @@ namespace HexWorld.Components
                 })
                 .ToList();
 
-            var units = Grid.Units.Forward
+            var units = Grid.PlayerUnits.Forward
                 .Select(pair => new Models.Unit()
                 {
                     pos = pair.Key.ToQub(),
@@ -186,8 +183,8 @@ namespace HexWorld.Components
                 tiles = tiles,
                 units = units,
                 structures = new List<Structure>(),
-                cameraPos = main_camera.transform.position,
-                cameraDir = main_camera.transform.forward
+                rotatorPos = main_camera.transform.parent.position,
+                cameraLocalPos = main_camera.transform.localPosition,
             };
 
             Serializer.Serialize(path, data);

@@ -65,7 +65,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Battle\BattleStart.cs" />
     <Compile Include="Assets\Scripts\Battle\Draw.cs" />
+    <Compile Include="Assets\Scripts\Battle\Movement\IMovementStrategy.cs" />
+    <Compile Include="Assets\Scripts\Battle\Movement\RadialMoveStrategy.cs" />
+    <Compile Include="Assets\Scripts\Battle\Movement\StraightMoveStrategy.cs" />
+    <Compile Include="Assets\Scripts\Battle\Patterns\IPatternStrategy.cs" />
     <Compile Include="Assets\Scripts\Battle\PlayerPhase.cs" />
+    <Compile Include="Assets\Scripts\Battle\Targets\ITargetStrategy.cs" />
     <Compile Include="Assets\Scripts\Cards\Card.cs" />
     <Compile Include="Assets\Scripts\Cards\CardCache.cs" />
     <Compile Include="Assets\Scripts\Cards\CardType.cs" />
@@ -81,9 +86,6 @@
     <Compile Include="Assets\Scripts\Components\Unit.cs" />
     <Compile Include="Assets\Scripts\Graph\AxialIndex.cs" />
     <Compile Include="Assets\Scripts\Graph\CubeIndex.cs" />
-    <Compile Include="Assets\Scripts\Graph\IMovementStrategy.cs" />
-    <Compile Include="Assets\Scripts\Graph\RadialMoveStrategy.cs" />
-    <Compile Include="Assets\Scripts\Graph\StraightMoveStrategy.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\Brush.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\HeightBrush.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\MatBrush.cs" />

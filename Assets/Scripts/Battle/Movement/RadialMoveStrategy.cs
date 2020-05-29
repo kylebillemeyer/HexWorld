@@ -1,10 +1,11 @@
 ﻿using HexWorld.Components;
 using HexWorld.Components.Tile;
+using HexWorld.Graph;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexWorld.Graph
+namespace HexWorld.Movement
 {
     public class RadialMoveStrategy : IMovementStrategy
     {

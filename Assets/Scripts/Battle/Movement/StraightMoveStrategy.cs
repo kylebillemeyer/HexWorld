@@ -3,8 +3,9 @@ using UnityEditor;
 using System.Collections.Generic;
 using HexWorld.Components;
 using HexWorld.Components.Tile;
+using HexWorld.Graph;
 
-namespace HexWorld.Graph
+namespace HexWorld.Movement
 {
     public class StraightMoveStrategy : IMovementStrategy
     {
