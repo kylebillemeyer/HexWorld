@@ -20,7 +20,7 @@ namespace HexWorld.Cards.Power
             RefId = "Slash";
             CardName = "Slash";
             Type = CardType.Power;
-            Cost = 1;
+            PowerCost = 1;
             Description = "Attach all units in range for 30 damage.";
         }
     }

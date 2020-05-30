@@ -63,13 +63,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Battle\BattleStart.cs" />
-    <Compile Include="Assets\Scripts\Battle\Draw.cs" />
+    <Compile Include="Assets\OrdossFX\SelectionBasesFX\Scripts\SelectionBases_EffectList.cs" />
+    <Compile Include="Assets\OutlineToolkit\Script\Demonstration_MeshProcessing.cs" />
+    <Compile Include="Assets\OutlineToolkit\Script\Demonstration_NoclipController.cs" />
+    <Compile Include="Assets\OutlineToolkit\Script\EdgeDetect.cs" />
+    <Compile Include="Assets\OutlineToolkit\Script\MeshProcessor.cs" />
     <Compile Include="Assets\Scripts\Battle\Movement\IMovementStrategy.cs" />
     <Compile Include="Assets\Scripts\Battle\Movement\RadialMoveStrategy.cs" />
     <Compile Include="Assets\Scripts\Battle\Movement\StraightMoveStrategy.cs" />
     <Compile Include="Assets\Scripts\Battle\Patterns\IPatternStrategy.cs" />
-    <Compile Include="Assets\Scripts\Battle\PlayerPhase.cs" />
+    <Compile Include="Assets\Scripts\Battle\States\BattleStart.cs" />
+    <Compile Include="Assets\Scripts\Battle\States\CasterSelect.cs" />
+    <Compile Include="Assets\Scripts\Battle\States\Draw.cs" />
+    <Compile Include="Assets\Scripts\Battle\States\PlayerPhase.cs" />
     <Compile Include="Assets\Scripts\Battle\Targets\ITargetStrategy.cs" />
     <Compile Include="Assets\Scripts\Cards\Card.cs" />
     <Compile Include="Assets\Scripts\Cards\CardCache.cs" />
@@ -104,6 +110,19 @@
     <Compile Include="Assets\Scripts\Util\State.cs" />
     <Compile Include="Assets\Scripts\Util\StateMachine.cs" />
     <Compile Include="Assets\Scripts\Util\Timer.cs" />
+    <None Include="Assets\OutlineToolkit\Shader\EdgeDetect.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\EdgeCombine.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\NamedStandard.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\Normals.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\EncodedDepth.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\StandardSurfaceOutlined.shader" />
+    <None Include="Assets\OrdossFX\SelectionBasesFX\Shaders\SelectionBases_Unlit.shader" />
+    <None Include="Assets\OutlineToolkit\Happy Flower\happy flower care instructions.txt" />
+    <None Include="Assets\OutlineToolkit\Shader\ProcessedEdges.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\Outline.shader" />
+    <None Include="Assets\OutlineToolkit\README.txt" />
+    <None Include="Assets\OrdossFX\SelectionBasesFX\Shaders\SelectionBases_Blended.shader" />
+    <None Include="Assets\OutlineToolkit\Shader\OutlineDepthDependant.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

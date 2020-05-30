@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using HexWord.Battle;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using HexWord.Battle.States;
 
 namespace HexWord.Cards
 {
@@ -45,6 +46,7 @@ namespace HexWord.Cards
         private List<CardMeta> cards;
         private bool resetCardPositionsNextFrame = false;
         private StagedMeta stagedMeta;
+        private StateMachine machine;
 
         public class CardTransform
         {
@@ -85,6 +87,9 @@ namespace HexWord.Cards
             drawAnchor = GetAnchor("DeckUI");
             discardAchor = GetAnchor("DiscardUI");
             cardStagingAnchor = GetAnchor("CardStagingUI");
+
+            var gameWorld = GameObject.Find("GameWorld").GetComponent<HexWorld.Components.GameWorld>();
+            machine = gameWorld.Machine;
         }
 
         private Vector3 GetAnchor(string objName)
@@ -273,7 +278,7 @@ namespace HexWord.Cards
             cardTypeText.text = card.Type.ToString();
 
             var costText = btn.FindObject("CostText").GetComponent<Text>();
-            costText.text = card.Cost.ToString();
+            costText.text = card.PowerCost.ToString();
 
             return inst;
         }
@@ -335,6 +340,7 @@ namespace HexWord.Cards
                     if (meta.Instance == card)
                     {
                         stagedMeta = new StagedMeta() { OrigIndex = i, CardMeta = meta };
+                        machine.ChangeState(new CasterSelect(meta.Card, machine));
 
                         meta.Animation = new CardTransform()
                         {

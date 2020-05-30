@@ -66,6 +66,22 @@ namespace HexWorld.Components
             set { focus = value; }
         }
 
+        [SerializeField]
+        private int soul;
+        public int Soul
+        {
+            get { return soul; }
+            set { soul = value; }
+        }
+
+        [SerializeField]
+        private int spirit;
+        public int Spirit
+        {
+            get { return spirit; }
+            set { spirit = value; }
+        }
+
         public IMovementStrategy GetMovementStrategy()
         {
             return new StraightMoveStrategy(Range);

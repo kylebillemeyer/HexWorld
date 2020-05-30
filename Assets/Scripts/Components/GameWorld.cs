@@ -11,6 +11,7 @@ using HexWorld.Cards;
 using HexWord.Battle;
 using HexWord.Util;
 using HexWorld.Cards.Power;
+using HexWord.Battle.States;
 
 namespace HexWorld.Components
 {
@@ -19,6 +20,7 @@ namespace HexWorld.Components
         public bool Disabled { get; set; }
         public GameGrid Grid { get; set; }
         public Deck Deck { get; set; }
+        public StateMachine Machine { get; set; }
 
         private Camera main_camera;
         private Material selected_mat;
@@ -28,7 +30,6 @@ namespace HexWorld.Components
         private Hex previousSelection;
         private List<Hex> potentialDestinations;
 
-        private StateMachine machine;
 
         // Use this for initialization
         void Start()
@@ -55,7 +56,7 @@ namespace HexWorld.Components
                 new Slash()
             });
 
-            machine = new StateMachine();
+            Machine = new StateMachine();
         }
 
         // Update is called once per frame
@@ -66,7 +67,7 @@ namespace HexWorld.Components
                 return;
             }
 
-            machine.Update(this);
+            Machine.Update(this);
 
             if (false)//Input.GetMouseButtonDown(0))
             {
@@ -197,7 +198,7 @@ namespace HexWorld.Components
 
         public void StartBattle()
         {
-            machine.ChangeState(new BattleStart(machine));
+            Machine.ChangeState(new BattleStart(Machine));
         }
     }
 }

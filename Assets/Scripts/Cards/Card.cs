@@ -34,11 +34,35 @@ namespace HexWorld.Cards
 
 
         [SerializeField]
-        private int cost;
-        public int Cost
+        private int powerCost;
+        public int PowerCost
         {
-            get { return cost; }
-            set { cost = value; }
+            get { return powerCost; }
+            set { powerCost = value; }
+        }
+
+        [SerializeField]
+        private int focusCost;
+        public int FocusCost
+        {
+            get { return focusCost; }
+            set { focusCost = value; }
+        }
+
+        [SerializeField]
+        private int soulCost;
+        public int SoulCost
+        {
+            get { return soulCost; }
+            set { soulCost = value; }
+        }
+
+        [SerializeField]
+        private int spiritCost;
+        public int SpiritCost
+        {
+            get { return spiritCost; }
+            set { spiritCost = value; }
         }
 
         [SerializeField]
