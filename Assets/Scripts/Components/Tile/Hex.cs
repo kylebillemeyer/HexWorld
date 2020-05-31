@@ -7,7 +7,7 @@ namespace HexWorld.Components.Tile
 {
     public class Hex : MonoBehaviour
     {
-        public static double Radius = 1;
+        public static float Radius = 1;
 
         [SerializeField]
         private Unit unit;

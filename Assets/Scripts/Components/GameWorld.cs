@@ -30,6 +30,11 @@ namespace HexWorld.Components
         private Hex previousSelection;
         private List<Hex> potentialDestinations;
 
+        public GameWorld()
+        {
+            Machine = new StateMachine();
+        }
+
 
         // Use this for initialization
         void Start()
@@ -55,8 +60,6 @@ namespace HexWorld.Components
                 new Slash(),
                 new Slash()
             });
-
-            Machine = new StateMachine();
         }
 
         // Update is called once per frame
@@ -72,7 +75,7 @@ namespace HexWorld.Components
             if (false)//Input.GetMouseButtonDown(0))
             {
                 ResetPreviousSelections();
-                selection = Grid.RayDetectHex(main_camera);
+                selection = Grid.RayDetect(main_camera, PhysicsLayers.Tile).GetComponent<Hex>();
 
                 if (selection != null)
                 {

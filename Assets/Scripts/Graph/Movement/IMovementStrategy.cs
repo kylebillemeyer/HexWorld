@@ -4,7 +4,7 @@ using HexWorld.Graph;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace HexWorld.Movement
+namespace HexWorld.Graph.Movement
 {
     public interface IMovementStrategy
     {

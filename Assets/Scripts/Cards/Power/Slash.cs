@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using HexWord.Graph;
+using HexWorld.Components;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +24,11 @@ namespace HexWorld.Cards.Power
             Type = CardType.Power;
             PowerCost = 1;
             Description = "Attach all units in range for 30 damage.";
+        }
+
+        public override IPattern GetPattern()
+        {
+            return new Arc(3, 1);
         }
     }
 }

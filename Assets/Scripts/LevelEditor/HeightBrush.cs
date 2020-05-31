@@ -35,7 +35,7 @@ namespace HexWorld.LevelEditor
 
             if (Input.GetMouseButton(0))
             {
-                var hex = Grid.RayDetectHex(MainCamera);
+                var hex = Grid.RayDetect(MainCamera, PhysicsLayers.Tile).GetComponent<Hex>();
                 if ((hex && lastHighlighted == null) || (hex && (hex != lastHighlighted || allowCast)))
                 {
                     Debug.Log(hex.Height);

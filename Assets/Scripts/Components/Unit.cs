@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HexWorld.Graph;
-using HexWorld.Movement;
+using HexWorld.Graph.Movement;
 
 namespace HexWorld.Components
 {

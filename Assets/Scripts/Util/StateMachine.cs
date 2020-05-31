@@ -36,5 +36,12 @@ namespace HexWord.Util
         {
             next = state;
         }
+
+        internal void ReturnToPrevious(GameWorld world)
+        {
+            Current.OnExit(world);
+            Current = Previous;
+            Previous = null;
+        }
     }
 }

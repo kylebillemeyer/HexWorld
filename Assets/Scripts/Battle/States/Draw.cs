@@ -24,15 +24,14 @@ namespace HexWorld.Battle.States
 
         public override void Update(GameWorld world)
         {
-            if (!handUIScript.Busy && world.Deck.DrawPile.Count >= 6)
+            if (!handUIScript.Busy)
             {
-                //handUIScript.Draw(world.Deck.Draw(6));
+                machine.ChangeState(new CardSelect(machine));
             }
         }
 
         public override void OnExit(GameWorld world)
         {
-            world.Deck.DiscardHand();
         }
     }
 }

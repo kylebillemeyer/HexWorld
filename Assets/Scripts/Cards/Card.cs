@@ -1,4 +1,6 @@
-﻿using HexWord.Util;
+﻿using HexWord.Graph;
+using HexWord.Util;
+using HexWorld.Components;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -72,5 +74,7 @@ namespace HexWorld.Cards
             get { return description; }
             set { description = value; }
         }
+
+        public abstract IPattern GetPattern();
     }
 }

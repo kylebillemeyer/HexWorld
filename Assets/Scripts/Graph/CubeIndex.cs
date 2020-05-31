@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using HexWorld.Models;
+using HexWord.Graph;
 
 namespace HexWorld.Graph
 {
@@ -59,6 +60,11 @@ namespace HexWorld.Graph
             return this + dir;
         }
 
+        public CubeIndex GetNeighbor(HexDir dir)
+        {
+            return this + dir.AsInd();
+        }
+
         public static CubeIndex operator +(CubeIndex a, CubeIndex b)
         {
             return new CubeIndex(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
@@ -75,13 +81,13 @@ namespace HexWorld.Graph
         }
 
         public static List<CubeIndex> cubeDirections = new List<CubeIndex>() {
-        new CubeIndex(+1, -1, 0),
-        new CubeIndex(+1, 0, -1),
-        new CubeIndex(0, +1, -1),
-        new CubeIndex(-1, +1, 0),
-        new CubeIndex(-1, 0, +1),
-        new CubeIndex(0, -1, +1)
-    };
+            new CubeIndex(+1, -1, 0),
+            new CubeIndex(+1, 0, -1),
+            new CubeIndex(0, +1, -1),
+            new CubeIndex(-1, +1, 0),
+            new CubeIndex(-1, 0, +1),
+            new CubeIndex(0, -1, +1)
+        };
 
         public static CubeIndex GetDir(int dir)
         {
@@ -117,9 +123,14 @@ namespace HexWorld.Graph
             return results;
         }
 
-        public static List<CubeIndex> GetSpiral(CubeIndex center, int radius)
+        public static List<CubeIndex> GetSpiral(CubeIndex center, int radius, bool includeCenter = true)
         {
-            var results = new List<CubeIndex>() { center };
+            var results = new List<CubeIndex>();
+            if (includeCenter)
+            {
+                results.Add(center);
+            }
+
             foreach (var i in Enumerable.Range(1, radius - 1))
             {
                 results.AddRange(GetRing(center, i));

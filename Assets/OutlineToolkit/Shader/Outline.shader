@@ -42,8 +42,8 @@
 			{
 				v2f o;
 
-				if (_Width == 0)
-					_Width = 2;
+				//if (_Width == 0)
+				_Width = 10;
 
 				float3 cameraForwardWorld = mul((float3x3)unity_CameraToWorld, float3(0, 0, 1));
 				float3 cameraForwardObject = mul((float3x3)unity_WorldToObject, cameraForwardWorld);

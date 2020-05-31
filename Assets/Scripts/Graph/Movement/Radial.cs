@@ -1,17 +1,18 @@
-﻿using HexWorld.Components;
+﻿using HexWord.Graph;
+using HexWorld.Components;
 using HexWorld.Components.Tile;
 using HexWorld.Graph;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexWorld.Movement
+namespace HexWorld.Graph.Movement
 {
-    public class RadialMoveStrategy : IMovementStrategy
+    public class Radial : IMovementStrategy, IPattern
     {
         public int Range { get; private set; }
 
-        public RadialMoveStrategy(int range)
+        public Radial(int range)
         {
             Range = range;
         }
@@ -19,6 +20,11 @@ namespace HexWorld.Movement
         public List<Hex> CalcDestinations(CubeIndex startingPos, GameGrid grid)
         {
             return grid.GetTiles(CubeIndex.GetSpiral(startingPos, Range));
+        }
+
+        public List<CubeIndex> CalcTargets(CubeIndex startingPos, HexDir dir, GameGrid grid)
+        {
+            return CubeIndex.GetSpiral(startingPos, Range);
         }
     }
 }

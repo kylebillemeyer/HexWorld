@@ -117,16 +117,16 @@ namespace HexWorld.Components
                 .ToList<Hex>();
         }
 
-        public Hex RayDetectHex(Camera camera)
+        public GameObject RayDetect(Camera camera, PhysicsLayers layer)
         {
-            int layerMask = 1 << 8;
+            int layerMask = 1 << (int)layer;
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
-                return hit.collider.gameObject.GetComponent<Hex>();
+                return hit.collider.gameObject;
             }
             else
             {

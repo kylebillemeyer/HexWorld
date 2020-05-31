@@ -93,3 +93,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 5
+  health: 0
+  maxHealth: 0
+  mana: 0
+  maxMana: 0
+  power: 5
+  focus: 5
+  soul: 5
+  spirit: 5
