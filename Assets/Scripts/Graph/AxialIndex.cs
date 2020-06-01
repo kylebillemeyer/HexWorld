@@ -18,7 +18,7 @@ namespace HexWorld.Graph
 
         public CubeIndex ToCube()
         {
-            return new CubeIndex(Q, R, -Q - R);
+            return new CubeIndex(Q, -Q - R, R);
         }
 
         public Vector3 Position()

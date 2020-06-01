@@ -60,6 +60,17 @@ namespace HexWord.Cards
             public CurveType Curve { get; set; }
         }
 
+        internal void CancelCardSelection()
+        {
+            if (stagedMeta != null)
+            {
+                cards.Insert(stagedMeta.OrigIndex, stagedMeta.CardMeta);
+                ResetCardPositions(null);
+                resetCardPositionsNextFrame = false;
+                stagedMeta = null;
+            }
+        }
+
         public enum CurveType
         {
             Draw,
@@ -101,19 +112,7 @@ namespace HexWord.Cards
 
         // Update is called once per frame
         void Update()
-        {
-            if (!Busy && Input.GetMouseButtonDown(1))
-            {
-                if (stagedMeta != null)
-                {
-                    cards.Insert(stagedMeta.OrigIndex, stagedMeta.CardMeta);
-                    ResetCardPositions(null);
-                    resetCardPositionsNextFrame = false;
-                    stagedMeta = null;
-                }
-            }
-
-
+        {       
             var allCards = cards.Select(x => x).ToList();
 
             if (stagedMeta != null)

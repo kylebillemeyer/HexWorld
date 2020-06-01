@@ -20,6 +20,33 @@ namespace HexWorld.Graph
             Z = z;
         }
 
+        public CubeIndex(float x, float y, float z)
+        {
+            var rx = Math.Round(x);
+            var ry = Math.Round(y);
+            var rz = Math.Round(z);
+
+            var x_diff = Math.Abs(rx - x);
+            var y_diff = Math.Abs(ry - y);
+            var z_diff = Math.Abs(rz - z);
+
+            if (x_diff > y_diff && x_diff > z_diff)
+                rx = -ry - rz;
+            else if (y_diff > z_diff)
+                ry = -rx - rz;
+            else
+                rz = -rx - ry;
+
+            X = (int)rx;
+            Y = (int)ry;
+            Z = (int)rz;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("x: {0}, y: {1}, z: {2}", X, Y, Z);
+        }
+
         public override int GetHashCode()
         {
             return new Tuple<int, int, int>(X, Y, Z).GetHashCode();
@@ -92,6 +119,30 @@ namespace HexWorld.Graph
         public static CubeIndex GetDir(int dir)
         {
             return cubeDirections[dir];
+        }
+
+        public static CubeIndex nearestIntersectingNeighbor(CubeIndex start, CubeIndex end)
+        {
+            var n = cube_distance(start, end);
+            return cube_lerp(start, end, 1.0f / n);
+        }
+
+        private static int cube_distance(CubeIndex a, CubeIndex b)
+        {
+            return (Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y) + Math.Abs(a.Z - b.Z)) / 2;
+        }
+
+        public static CubeIndex cube_lerp(CubeIndex a, CubeIndex b, float t)
+        {
+            return new CubeIndex(
+                lerp(a.X, b.X, t),
+                lerp(a.Y, b.Y, t),
+                lerp(a.Z, b.Z, t));
+        }
+
+        public static float lerp(float a, float b, float t)
+        {
+            return a + (b - a) * t;
         }
 
         public static List<CubeIndex> GetRadialLine(CubeIndex start, int dir, int length)

@@ -31,16 +31,18 @@ public class Arc : IPattern
         var current_tile = start;
         while (current_depth <= ArcDepth)
         {
+            targets.Add(current_tile);
+
             var i = 0;
-            while (i < ImmediateArcWidth)
+            while (i < (ImmediateArcWidth-1))
             {
                 var current_dir = rightmostDir.rotateLeft(2 + i);
 
                 var j = 0;
                 while (j < current_depth)
                 {
-                    targets.Add(current_tile);
                     current_tile = current_tile.GetNeighbor(current_dir);
+                    targets.Add(current_tile);
                     j++;
                 }
 
@@ -48,7 +50,7 @@ public class Arc : IPattern
             }
             
             current_depth++;
-            start.GetNeighbor(rightmostDir);
+            start = start.GetNeighbor(rightmostDir);
             current_tile = start;
         }
 
