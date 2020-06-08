@@ -95,10 +95,13 @@
     <Compile Include="Assets\Scripts\Graph\GraphUtil.cs" />
     <Compile Include="Assets\Scripts\Graph\HexDir.cs" />
     <Compile Include="Assets\Scripts\Graph\Movement\IMovementStrategy.cs" />
-    <Compile Include="Assets\Scripts\Graph\Movement\Radial.cs" />
-    <Compile Include="Assets\Scripts\Graph\Movement\StraightMoveStrategy.cs" />
     <Compile Include="Assets\Scripts\Graph\Patterns\Arc.cs" />
+    <Compile Include="Assets\Scripts\Graph\Patterns\DetachedRadial.cs" />
     <Compile Include="Assets\Scripts\Graph\Patterns\IPatternStrategy.cs" />
+    <Compile Include="Assets\Scripts\Graph\Patterns\Line.cs" />
+    <Compile Include="Assets\Scripts\Graph\Patterns\Radial.cs" />
+    <Compile Include="Assets\Scripts\Graph\Patterns\Ring.cs" />
+    <Compile Include="Assets\Scripts\Graph\Patterns\Star.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\Brush.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\HeightBrush.cs" />
     <Compile Include="Assets\Scripts\LevelEditor\MatBrush.cs" />

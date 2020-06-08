@@ -9,6 +9,6 @@ namespace HexWord.Graph
 {
     public interface IPattern
     {
-        List<CubeIndex> CalcTargets(CubeIndex startingPos, HexDir dir, GameGrid grid);
+        List<CubeIndex> CalcTargets(CubeIndex startingPos, CubeIndex targetPos, GameGrid grid);
     }
 }

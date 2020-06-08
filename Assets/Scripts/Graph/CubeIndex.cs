@@ -145,16 +145,28 @@ namespace HexWorld.Graph
             return a + (b - a) * t;
         }
 
-        public static List<CubeIndex> GetRadialLine(CubeIndex start, int dir, int length)
+        public static List<CubeIndex> GetLine(CubeIndex start, HexDir facingDir, int length)
         {
             var tiles = new List<CubeIndex>();
             while (length > 0)
             {
-                start += cubeDirections[dir];
+                start += cubeDirections[(int)facingDir];
                 tiles.Add(start);
                 length--;
             }
             return tiles;
+        }
+
+        public static List<CubeIndex> GetRing(CubeIndex center, int radius, int thickness)
+        {
+            var results = new List<CubeIndex>();
+
+            foreach (var i in Enumerable.Range(radius, thickness))
+            {
+                results.AddRange(GetRing(center, i));
+            }
+
+            return results;
         }
 
         public static List<CubeIndex> GetRing(CubeIndex center, int radius)

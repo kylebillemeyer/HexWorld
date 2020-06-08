@@ -1,5 +1,6 @@
 ﻿using HexWord.Graph;
 using HexWorld.Components;
+using HexWorld.Graph.Movement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace HexWorld.Cards.Power
 
         public override IPattern GetPattern()
         {
-            return new Arc(3, 1);
+            return new DetachedRadial(3);
         }
     }
 }

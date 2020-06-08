@@ -19,12 +19,13 @@ namespace HexWorld.Graph.Movement
 
         public List<Hex> CalcDestinations(CubeIndex startingPos, GameGrid grid)
         {
-            return grid.GetTiles(CubeIndex.GetSpiral(startingPos, Range));
+            return grid.GetTiles(CubeIndex.GetSpiral(startingPos, Range, false));
         }
 
-        public List<CubeIndex> CalcTargets(CubeIndex startingPos, HexDir dir, GameGrid grid)
+        public List<CubeIndex> CalcTargets(CubeIndex startingPos, CubeIndex targetPos, GameGrid grid)
         {
-            return CubeIndex.GetSpiral(startingPos, Range);
+            var facingDir = HexDirUtil.fromTargetPos(startingPos, targetPos);
+            return CubeIndex.GetSpiral(startingPos, Range, false);
         }
     }
 }

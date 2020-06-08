@@ -53,5 +53,11 @@ namespace HexWord.Graph
 
             return DirMap.Reverse[offset];
         }
+
+        public static HexDir fromTargetPos(CubeIndex startPos, CubeIndex targetPos)
+        {
+            var facingNeighbor = CubeIndex.nearestIntersectingNeighbor(startPos, targetPos);
+            return HexDirUtil.fromNeighbor(startPos, facingNeighbor);
+        }
     }
 }

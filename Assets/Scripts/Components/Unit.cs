@@ -84,7 +84,7 @@ namespace HexWorld.Components
 
         public IMovementStrategy GetMovementStrategy()
         {
-            return new StraightMoveStrategy(Range);
+            return new Line(Range);
         }
 
         public bool IsDead()

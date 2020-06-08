@@ -8,6 +8,7 @@ using HexWorld.Graph;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace HexWord.Battle.States
 {
@@ -54,17 +55,17 @@ namespace HexWord.Battle.States
 
                 var hex = hit.GetComponent<Hex>();
 
-                if (hex != seletedTile && hex != hoveredTile)
+                if (hex != hoveredTile)
                 {
                     hoveredTile = hex;
 
                     ClearHighlightedTiles(world.Grid);
 
                     var hovered_index = world.Grid.Tiles.Reverse[hoveredTile];
-                    var facingNeighbor = CubeIndex.nearestIntersectingNeighbor(selectedIndex, hovered_index);
-                    var facingDir = HexDirUtil.fromNeighbor(selectedIndex, facingNeighbor);
-                    //highlightedTiles = new List<CubeIndex>() { selectedIndex.GetNeighbor(HexDir.Southeast) };
-                    highlightedTiles = selectedCard.GetPattern().CalcTargets(selectedIndex, facingDir, world.Grid);
+                    highlightedTiles = selectedCard.GetPattern()
+                        .CalcTargets(selectedIndex, hovered_index, world.Grid)
+                        .Where(x => world.Grid.Tiles.Forward.ContainsKey(x))
+                        .ToList();
 
                     HighlightTiles(world.Grid);
                 }

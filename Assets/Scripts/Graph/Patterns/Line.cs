@@ -8,23 +8,24 @@ using HexWord.Graph;
 
 namespace HexWorld.Graph.Movement
 {
-    public class StraightMoveStrategy : IMovementStrategy, IPattern
+    public class Line : IMovementStrategy, IPattern
     {
         public int Range { get; private set; }
 
-        public StraightMoveStrategy(int range)
+        public Line(int range)
         {
             Range = range;
         }
 
         public List<Hex> CalcDestinations(CubeIndex startingPos, GameGrid grid)
         {
-            return grid.GetTiles(CubeIndex.GetRadialLine(startingPos, 1, Range));
+            return grid.GetTiles(CubeIndex.GetLine(startingPos, HexDir.East, Range));
         }
 
-        public List<CubeIndex> CalcTargets(CubeIndex startingPos, HexDir dir, GameGrid grid)
+        public List<CubeIndex> CalcTargets(CubeIndex startingPos, CubeIndex targetPos, GameGrid grid)
         {
-            return CubeIndex.GetRadialLine(startingPos, 1, Range);
+            var facingDir = HexDirUtil.fromTargetPos(startingPos, targetPos);
+            return CubeIndex.GetLine(startingPos, facingDir, Range);
         }
     }
 }
